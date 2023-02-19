@@ -1,0 +1,118 @@
+<div class="main">
+<div class="card border-1">
+    <h2 id="h2" class="text-danger text-center d-inline">Add New Products</h2>
+    <span>
+       <button id="btnproduct" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProducts" type="submit"><i
+                    class="bi bi-plus"></i>Add Product</button>
+    </span>
+</div>
+<hr>
+<div class="card border-1 mb-2 mt-2">
+<div class="col-md-12">
+
+    <div class="mb-3 mt-3">
+      <h2 class="text-primary text-center">New Products list</h2>
+    </div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col"><b>Image</b></th>
+          <th scope="col"><b>Name</b></th>
+          <th scope="col"><b>Price</b></th>
+          <th scope="col"><b>Discount</b></th>
+          <th scope="col"><b>Action</b></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let file of listOfFiles">
+          <th><img id="img" src="{{file.url}}" alt="" height="55px"></th>
+          <td>{{file.names | titlecase}}</td>
+          <td>₹ {{file.price}}</td>
+          <td>{{file.discount}}%</td>
+          <td class="btns">
+            <button type="button" class="btn btn-sm btn-square btn-neutral text-danger-hover" (click)="download()">
+              <i class="bi bi-download"></i>
+          </button>
+          &nbsp;
+            <button type="button" class="btn btn-sm btn-square btn-neutral text-danger-hover" (click)="deleteFile(file)">
+              <i class="bi bi-trash"></i>
+          </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<!-- Modal for add products -->
+
+  <div class="modal fade overflow-hiddens" id="addProducts" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLabel">Add Products</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <form [formGroup]="myFiles">
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Name</label>
+                        <input type="text" formControlName="names" class="form-control" id="names"
+                            aria-describedby="emailHelp">
+                            <small class="text-danger"
+                            *ngIf="!myFiles.get('names')?.valid && myFiles.get('names')?.touched">*Please
+                            Enter Product Name</small>
+                    </div>
+                   
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Price</label>
+                        <input type="number" formControlName="price" class="form-control" id="price"
+                            aria-describedby="emailHelp">
+                            <small class="text-danger"
+                            *ngIf="!myFiles.get('price')?.valid && myFiles.get('price')?.touched">*Please
+                            Enter price</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Discounts</label>
+                        <input type="number" formControlName="discount" class="form-control" id="discount"
+                            aria-describedby="emailHelp">
+                            <small class="text-danger"
+                            *ngIf="!myFiles.get('discount')?.valid && myFiles.get('discount')?.touched">*Please
+                            Enter Discounted price</small>
+                    </div>
+
+                    <div class="card border-1 shadow">
+                      <div class="card-body">
+                        <div>
+                          <input id="inputfile" type="file" class="text-nowrap text-truncate file" (change)="selectFile($event)">
+                          
+                        </div>
+              
+                        <div class="progress mt-2">
+                          <div class="progress-bar progress-bar-info" role="progressbar" attr.aria-valuenow="{{percentage}}"
+                            aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: percentage + '%' }">
+                            {{percentage}}%
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+              
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-outline-success" [disabled]="!selectedFiles"
+                          (click)="uploadFile()">Upload</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+
